@@ -1,0 +1,60 @@
+# Core ML and RL dependencies
+torch>=1.12.0
+ray[rllib]>=2.0.0,<3.0.0
+gymnasium>=0.26.0
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Environment dependencies
+pygame>=2.1.0
+matplotlib>=3.5.0
+Pillow>=9.0.0
+
+# Data handling and utilities
+pandas>=1.3.0
+seaborn>=0.11.0
+tqdm>=4.64.0
+
+# Logging and experiment tracking  
+wandb>=0.12.0
+tensorboard>=2.8.0
+
+# Language model integration (optional)
+openai>=1.0.0
+tiktoken>=0.4.0
+
+# Development dependencies (optional)
+black>=22.0.0
+flake8>=4.0.0
+isort>=5.10.0
+pre-commit>=2.17.0
+
+# Testing (optional)
+pytest>=7.0.0
+pytest-cov>=3.0.0
+pytest-xdist>=2.5.0
+
+# Documentation (optional)  
+sphinx>=4.5.0
+sphinx-rtd-theme>=1.0.0
+myst-parser>=0.17.0
+
+# Compatibility and utilities
+pyyaml>=6.0
+requests>=2.27.0
+tqdm>=4.64.0
+cloudpickle>=2.0.0
+
+# Optional GPU acceleration
+# torch-audio>=0.12.0  # Uncomment if audio processing needed
+# torchvision>=0.13.0  # Uncomment if vision processing needed
+
+# Platform-specific dependencies
+# Windows
+# pywin32>=227; sys_platform == "win32"
+
+# macOS  
+# py-applescript>=1.0.0; sys_platform == "darwin"
+
+# Linux
+# python-xlib>=0.31; sys_platform == "linux"
