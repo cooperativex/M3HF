@@ -1,4 +1,4 @@
-# M3HF: Multi-agent Reinforcement Learning from Multi-phase Human Feedback of Mixed Quality
+# [ICML 2025] M3HF: Multi-agent Reinforcement Learning from Multi-phase Human Feedback of Mixed Quality
 
 <p align="center">
     <img src="image/Overcooked_A.gif" width=260></img>
