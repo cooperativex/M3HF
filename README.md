@@ -219,25 +219,49 @@ feedback = "Don't deliver wrong salads! Make sure all ingredients are properly c
 
 ### Custom Reward Templates
 
+You can extend M3HF by adding new reward function templates to the LLM prompts. The templates are defined in the `REWARD_FUNCTION_BUILD_PROMPT` and used by the LLM to generate reward functions based on human feedback:
+
 ```python
-from language import RewardFunctionGenerator
+# Edit prompt.py to add new templates to REWARD_FUNCTION_BUILD_PROMPT
 
-# Distance-based reward template
-def distance_reward(obs, target_agent_idx, target_item_idx):
-    agent_pos = obs[target_agent_idx*2:(target_agent_idx*2+2)]
-    item_pos = obs[target_item_idx*2:(target_item_idx*2+2)]
-    return -np.linalg.norm(agent_pos - item_pos)
+# Existing templates in the prompt:
 
-# Action-based reward template  
-def action_reward(obs, action, target_action):
-    return 1.0 if action == target_action else 0.0
+# 1. Distance-based:
+# lambda obs, act: -sqrt((obs[e1_x] - obs[e2_x])**2 + (obs[e1_y] - obs[e2_y])**2)
+# Example: lambda obs, act: -sqrt((obs[19] - obs[0])**2 + (obs[20] - obs[1])**2)  # Distance between agent 1 and tomato
 
-# Cooperation reward template
-def cooperation_reward(obs, agent1_idx, agent2_idx, distance_threshold=2.0):
-    agent1_pos = obs[agent1_idx*2:(agent1_idx*2+2)]
-    agent2_pos = obs[agent2_idx*2:(agent2_idx*2+2)]
-    distance = np.linalg.norm(agent1_pos - agent2_pos)
-    return 1.0 if distance <= distance_threshold else 0.0
+# 2. Action-based:
+# lambda obs, act: 1 if act == desired_action else 0
+# Example: lambda obs, act: 1 if act == 5 else 0  # Reward for 'Interact' action
+
+# 3. Status-based:
+# lambda obs, act: 1 if obs[e_status] == desired_status else 0
+# Example: lambda obs, act: 1 if obs[2] == 1 else 0  # Reward if tomato is chopped
+
+# 4. Proximity-based:
+# lambda obs, act: r_prox if sqrt((obs[e1_x] - obs[e2_x])**2 + (obs[e1_y] - obs[e2_y])**2) <= d else 0
+# Example: lambda obs, act: 0.5 if sqrt((obs[19] - obs[13])**2 + (obs[20] - obs[14])**2) <= 1 else 0  # Reward if agent 1 is near knife 1
+
+# 5. Time-based penalty:
+# lambda obs, act, t: -beta * t
+# Example: lambda obs, act, t: -0.001 * t  # Increasing penalty over time
+
+# 6. Success-based:
+# lambda obs, act: r_success if goal_condition_met(obs) else 0
+# Example: lambda obs, act: 10 if obs[25] == 1 and obs[17] == obs[19] and obs[18] == obs[20] else 0  # Reward for delivering completed order
+
+# 7. Energy-based penalty:
+# lambda obs, act: -gamma * energy_cost(act)
+# Example: lambda obs, act: -0.2 * (1 if act != 0 else 0)  # Penalty for non-zero actions
+
+# 8. Composite reward:
+# lambda obs, act: sum(weight_i * reward_function_i(obs, act) for i in range(n))
+
+# To add custom templates:
+# 1. Edit prompt.py
+# 2. Add your template to REWARD_FUNCTION_BUILD_PROMPT
+# 3. Provide examples showing how to parameterize it
+# 4. Include documentation for the LLM to understand when to use it
 ```
 
 
