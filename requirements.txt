@@ -1,6 +1,6 @@
 # Core ML and RL dependencies
 torch>=1.12.0
-ray[rllib]>=2.0.0,<3.0.0
+ray[rllib]==2.10.0
 gymnasium>=0.26.0
 numpy>=1.21.0
 scipy>=1.7.0
